@@ -1,0 +1,259 @@
+:root {
+  /* Color Palette — Cool Professional */
+  --color-red: #e6194B;
+  --color-red-light: #fabed4;
+  --color-green: #3cb44b;
+  --color-green-light: #aaffc3;
+  --color-teal: #2F8E84;
+  --color-lavender: #dcbeff;
+
+  /* Neutral "ink" brand — UI chrome (logo, active mode toggles, code chips,
+     current breadcrumb). Kept deliberately separate from the data colours
+     (teal = CT, sienna = MR) so brand and data never compete. */
+  --color-ink: #2B3640;
+  --color-ink-hover: #3a4754;
+  --color-positive: #4E9A6B;
+
+  /* Semantic Roles */
+  --color-primary: var(--color-teal);
+  --color-secondary: #E8F5F3;
+  --color-bg: #F4F5F7;
+  --color-surface: #FFFFFF;
+  --color-text-main: #1A1D21;
+  --color-text-muted: #5F6B7A;
+  --color-border: #E2E5EA;
+  --color-border-hover: #CBD0D8;
+
+  /* Pink accent — the "you can compare these" prompt, and nothing else. It has
+     to catch the eye against a panel that is otherwise teal and amber, so it
+     borrows the figure palette's rose rather than inventing a colour. */
+  --color-accent: #A63D5C;
+  --color-accent-tint: #FCEEF2;
+  --color-accent-line: #EFC3CF;
+
+  /* Imaging-mode colours — the three brand colours (logo scan-dial)
+     denote none / single / multiple. Male = full colour, Female = lighter. */
+  --color-no-male: #5B7FC7;    --color-no-female: #9DB1DD;     /* none   → brand blue  */
+  --color-yes-male: #2FA6A0;   --color-yes-female: #82CBC6;    /* single → brand teal  */
+  --color-multi-male: #E6B45A; --color-multi-female: #F1D49C;  /* multi  → brand amber */
+
+  /* Imaging-mode ramps (None→Single→Multiple) — brand trio, both modalities. */
+  --grp-ct-none: #5B7FC7; --grp-ct-single: #2FA6A0; --grp-ct-multi: #E6B45A;
+  --grp-mr-none: #5B7FC7; --grp-mr-single: #2FA6A0; --grp-mr-multi: #E6B45A;
+
+  /* Modality */
+  --color-ct: var(--color-teal);
+  --color-mr: #BD7A2E;
+
+  /* Spacing & Layout */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* Shadows — cooler, subtler */
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.03);
+  --shadow-md: 0 2px 8px -2px rgb(0 0 0 / 0.08), 0 1px 3px -1px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 8px 20px -4px rgb(0 0 0 / 0.10), 0 4px 8px -4px rgb(0 0 0 / 0.05);
+  --shadow-float: 0 16px 32px -8px rgb(0 0 0 / 0.12), 0 6px 12px -6px rgb(0 0 0 / 0.06);
+
+  /* Typography */
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --radius-card: 14px;
+  --radius-pill: 9999px;
+}
+
+/* One colour mode. A dark theme used to live here, but the panels draw from the
+   PAL constants in data/chapterMeta.ts, which are fixed light-theme hex values —
+   so the charts, their cards and their labels stayed light-on-light whatever the
+   toggle said. Rather than ship a half-working switch, the atlas is light only. */
+
+/* Logo dial — slow rotation in the landing hero */
+@keyframes dialSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  svg[style*="dialSpin"] { animation: none !important; }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  overflow: hidden; /* App-like feel */
+}
+
+/* The landing and legal pages are documents: they scroll (Root sets data-page). */
+body[data-page="doc"] {
+  height: auto;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+/* On a phone the atlas is one screen with a tab bar at the bottom (the
+   breakpoint is NARROW_PX in utils/useNarrow.ts). 100dvh, not 100vh: on a phone
+   100vh is taller than what the browser's own bars leave, and the tab bar
+   would sit under them. */
+@media (max-width: 899px) {
+  body[data-page="app"] {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Utility classes */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.floating-card {
+  box-shadow: var(--shadow-float);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.floating-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 25px 30px -5px rgb(0 0 0 / 0.12), 0 10px 15px -6px rgb(0 0 0 / 0.1);
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-sm { font-size: 0.875rem; }
+.text-xs { font-size: 0.75rem; }
+.font-medium { font-weight: 500; }
+.text-muted { color: var(--color-text-muted); }
+
+/* Tabular figures — keeps stat numbers aligned and non-jittery */
+.num { font-variant-numeric: tabular-nums; }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4D4D8;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A1A1AA;
+}
+
+/* Heatmap cell hover */
+.heatmap-container div[style*="cursor: pointer"]:hover {
+  outline: 1.5px solid var(--color-text-main);
+  outline-offset: -1px;
+  z-index: 1;
+}
+
+/* Smooth transitions for drill-down panels — pure fade (the zoom comes from the
+   panel-level wrappers below, so the two never fight over `transform`). */
+.card {
+  animation: panelFadeIn 0.3s ease-out;
+}
+
+@keyframes panelFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Trends panel reveal — wipes in from left to right (no fade/blur). The inner
+   card's default fade is suppressed so only the wipe shows. */
+@keyframes revealLR { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+.reveal-lr { animation: revealLR 0.9s cubic-bezier(0.4, 0, 0.2, 1) both; height: 100%; }
+.reveal-lr .card { animation: none; }
+
+/* Left tile zoom — independent of the right panel: diving into a clicked tile
+   (origin set inline) vs zooming back out. The right panel swaps statically. */
+@keyframes tileZoomIn  { from { opacity: 0; transform: scale(0.45); } to { opacity: 1; transform: scale(1); } }
+@keyframes tileZoomOut { from { opacity: 0; transform: scale(1.22); } to { opacity: 1; transform: scale(1); } }
+
+/* Cinematic level change — the clicked tile is the camera focus. transform-origin
+   is set to the tile centre and the scale extremes (--t-in = the tile's own size as
+   a fraction of the panel, --t-out = its inverse) are set inline, so the code grid
+   emerges from / collapses into the tile's *exact* rectangle. Diving IN: the chapter
+   grid flies into the tile (dive-out) while the code grid unfolds out of it (dive-in).
+   Pulling OUT reverses. */
+@keyframes tileDiveIn  { from { opacity: 0; transform: scale(var(--t-in, 0.3)); }  to { opacity: 1; transform: scale(1); } }
+@keyframes tileDiveOut { from { opacity: 1; transform: scale(1); }                 to { opacity: 0; transform: scale(var(--t-out, 2.7)); } }
+@keyframes tilePullIn  { from { opacity: 0; transform: scale(var(--t-out, 2.7)); } to { opacity: 1; transform: scale(1); } }
+@keyframes tilePullOut { from { opacity: 1; transform: scale(1); }                 to { opacity: 0; transform: scale(var(--t-in, 0.3)); } }
+
+@media (prefers-reduced-motion: reduce) { .reveal-lr, .tile-anim { animation: none !important; } }
+
+/* Sequential top-to-bottom reveal — children fade up in order */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal-seq > * { animation: revealUp 0.5s cubic-bezier(0.2, 0.6, 0.2, 1) both; }
+.reveal-seq > *:nth-child(1) { animation-delay: 0.03s; }
+.reveal-seq > *:nth-child(2) { animation-delay: 0.10s; }
+.reveal-seq > *:nth-child(3) { animation-delay: 0.17s; }
+.reveal-seq > *:nth-child(4) { animation-delay: 0.24s; }
+.reveal-seq > *:nth-child(5) { animation-delay: 0.31s; }
+.reveal-seq > *:nth-child(6) { animation-delay: 0.38s; }
+.reveal-seq > *:nth-child(7) { animation-delay: 0.45s; }
+.reveal-seq > *:nth-child(8) { animation-delay: 0.52s; }
+@media (prefers-reduced-motion: reduce) { .reveal-seq > * { animation: none; } }
+
+/* Tile navigator — zoom/crossfade when changing levels (slow + smooth) */
+@keyframes tileZoom {
+  from { opacity: 0; transform: scale(0.93); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.tile-zoom { animation: tileZoom 0.8s cubic-bezier(0.22, 0.68, 0.24, 1); transform-origin: 50% 0; }
+
+/* "Select a tile" prompt — gentle floating idle motion */
+@keyframes selectFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.select-float { animation: selectFloat 3.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .tile-zoom, .select-float { animation: none; } }
+
+/* Focus-visible for keyboard nav */
+button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Responsive: tighten spacing on smaller screens */
+@media (max-width: 1400px) {
+  :root {
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+  }
+}

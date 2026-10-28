@@ -1,0 +1,36 @@
+{
+  "name": "imaging-atlas-germany",
+  "private": true,
+  "version": "1.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19 <21 || >=22.12"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:pages": "node scripts/verify-stamp.mjs && tsc && vite build --base=/germany-imaging-atlas/ --outDir dist-pages",
+    "preview": "vite preview",
+    "check": "node scripts/check-paper1-parity.mjs && node scripts/check-integrity.mjs && node scripts/check-render.mjs",
+    "stamp": "node scripts/stamp-build.mjs",
+    "verify-stamp": "node scripts/verify-stamp.mjs"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@types/d3": "^7.4.3",
+    "d3": "^7.9.0",
+    "lucide-react": "^0.292.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "recharts": "^2.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.2.0",
+    "esbuild": "^0.27.2",
+    "typescript": "^5.2.2",
+    "vite": "^7.2.6"
+  }
+}

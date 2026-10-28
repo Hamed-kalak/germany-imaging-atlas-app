@@ -1,0 +1,4 @@
+# Unix line endings everywhere: the scripts and configs run on Linux servers.
+* text=auto eol=lf
+# The dataset is checked byte for byte against public/build.json; never convert it.
+src/data/realData.json -text

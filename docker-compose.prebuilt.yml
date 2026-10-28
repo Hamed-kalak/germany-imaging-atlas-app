@@ -1,0 +1,43 @@
+# Imaging Atlas — offline variant: builds from site/, needs only an nginx image.
+#
+#   docker compose -f docker-compose.prebuilt.yml up -d --build
+#
+# If even nginx:1.27-alpine cannot be pulled, point it at whatever the server
+# already has (`docker images` will show it):
+#
+#   NGINX_IMAGE=nginx:alpine docker compose -f docker-compose.prebuilt.yml up -d --build
+#
+# Port defaults to 8501 here — the port this server actually serves on.
+
+services:
+  imaging-atlas:
+    build:
+      context: .
+      dockerfile: Dockerfile.prebuilt
+      args:
+        NGINX_IMAGE: ${NGINX_IMAGE:-nginx:1.27-alpine}
+    image: imaging-atlas:1.1.0
+    container_name: imaging-atlas
+    ports:
+      # Bound to every interface, because 8501 is the address this server is
+      # reached on. Put a reverse proxy in front before it leaves the network.
+      - "${ATLAS_PORT:-8501}:80"
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/healthz"]
+      interval: 30s
+      timeout: 3s
+      start_period: 5s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

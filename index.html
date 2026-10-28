@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='18' fill='%23E8F5F3'/%3E%3Cpath d='M 34.39 66.41 A 27 27 0 0 1 14.32 31.66' fill='none' stroke='%232FA6A0' stroke-width='9' stroke-linecap='round'/%3E%3Cpath d='M 19.94 21.93 A 27 27 0 0 1 60.06 21.93' fill='none' stroke='%235B7FC7' stroke-width='9' stroke-linecap='round'/%3E%3Cpath d='M 65.68 31.66 A 27 27 0 0 1 45.61 66.41' fill='none' stroke='%23E6B45A' stroke-width='9' stroke-linecap='round'/%3E%3Cg stroke='%232B3640' stroke-width='3.4' stroke-linecap='round'%3E%3Cline x1='40' y1='31' x2='40' y2='49'/%3E%3Cline x1='31' y1='40' x2='49' y2='40'/%3E%3C/g%3E%3C/svg%3E" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Germany Imaging Atlas — inpatient CT and MRI across 624 diagnoses, 2005–2024</title>
+    <meta name="description" content="Inpatient CT and MRI utilisation across 624 ICD-10-GM diagnoses in Germany, 2005-2024, from the German DRG statistics." />
+    <!-- Inter is bundled (see src/main.tsx), not fetched from fonts.googleapis.com:
+         a page served from a German institution should not hand every visitor's
+         IP address to a third party, and a published research artefact should
+         not stop rendering correctly if that third party changes. -->
+    <style>
+      /* Instant first-paint loader, shown before the JS bundle mounts React. */
+      #boot { position: fixed; inset: 0; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; gap: 14px;
+        font-family: Inter, system-ui, sans-serif; color: #64748b; }
+      #boot .s { width: 34px; height: 34px; border-radius: 50%;
+        border: 3px solid #e2e8f0; border-top-color: #2FA6A0;
+        animation: bs 0.8s linear infinite; }
+      @keyframes bs { to { transform: rotate(360deg); } }
+    </style>
+  </head>
+  <body>
+    <div id="root"><div id="boot"><div class="s"></div><div>Loading the Germany Imaging Atlas…</div></div></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "app": "imaging-atlas-germany",
+  "built": "2026-10-28T13:19:43.813Z",
+  "commit": "416f735",
+  "worktree": "clean",
+  "data": {
+    "file": "src/data/realData.json",
+    "rows": 624,
+    "bytes": 18165455,
+    "sha256": "247ddc0b5faeb45618eea16fbaaa5a16b7703fc531b84d1006b9fafe779906e3"
+  },
+  "gates": {
+    "parity": "passed",
+    "integrity": "passed",
+    "render": "passed"
+  }
+}

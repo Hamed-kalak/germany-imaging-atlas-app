@@ -1,0 +1,51 @@
+# Imaging Atlas — single static container.
+#
+#   docker compose up -d --build     build and start
+#   docker compose down              stop and remove
+#
+# Port: 8501 on the host by default. Override without editing this file:
+#   ATLAS_PORT=8090 docker compose up -d
+#
+# There is no database, no backend and no writable volume. The container holds
+# a web server and a directory of files; losing it costs nothing but the time
+# to run this again.
+
+services:
+  imaging-atlas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # A server that cannot reach Docker Hub can only use what it has
+        # cached. `docker images` shows what that is; point these at it, or at
+        # an internal mirror. If there is no usable node image at all, use
+        # docker-compose.prebuilt.yml, which needs nginx only.
+        NODE_IMAGE: ${NODE_IMAGE:-node:22-alpine}
+        NGINX_IMAGE: ${NGINX_IMAGE:-nginx:1.27-alpine}
+    image: imaging-atlas:1.1.0
+    container_name: imaging-atlas
+    ports:
+      # 8501 is the port this server serves on. Bound to every interface, so
+      # put a reverse proxy in front before it leaves the network — there is no
+      # authentication ahead of this. Prefix with 127.0.0.1: to keep it local.
+      - "${ATLAS_PORT:-8501}:80"
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      # nginx writes its pid and its temp bodies; nothing else needs to write.
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/healthz"]
+      interval: 30s
+      timeout: 3s
+      start_period: 5s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

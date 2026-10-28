@@ -1,0 +1,9 @@
+# Keep the build context to source + the stamped data (about 20 MB).
+node_modules
+dist
+.git
+*.md
+# Never let a local .env reach an image that is served publicly.
+.env
+.env.*
+# public/build.json is REQUIRED: verify-stamp refuses to build without it.
